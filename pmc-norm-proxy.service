@@ -3,7 +3,7 @@ Description=PMC data proxy from MQTT to Norm
 
 [Service]
 Environment=PYTHONUNBUFFERED=true
-ExecStart=/home/administrator/pmc-nrg5-proxy/proxy
+ExecStart=/home/administrator/pmc-mqtt-norm-proxy/proxy.py
 Restart=always
 RestartSec=5
 
