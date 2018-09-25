@@ -4,8 +4,7 @@ import json
 import requests
 import paho.mqtt.client as mqtt
 
-#url = "http://217.33.61.83:8585/api/2/things"
-url = "http://localhost"
+url = "http://217.33.61.83:8585/api/2/things"
 
 pmcs = [("pmc/1670020454100061004aa000a0000005",0), ("pmc/16700204541000610080a000a000007d",0), ("pmc/16700204541000610088a000a0000045",0), ("pmc/16700204541000610066a000a00000c1",0)]
 
@@ -33,13 +32,10 @@ def on_message(mqttc, userdata, msg):
     norm_msg["timestamp"] = ts
     norm_msg["features"] = {}
 
-
     for i,field in enumerate(data):
         norm_msg["features"][field] = {"value": float(data[field]), "units": units[i]}
 
     r = requests.put(url, json=norm_msg)
-    print(r.text)
-    print(json.dumps(norm_msg))
 
 mqttc = mqtt.Client()
 mqttc.on_connect = on_connect
