@@ -1,0 +1,47 @@
+{
+   "thingId":"org.nrg5:NORM0001",
+   "policyId":"org.nrg5:NORM0001",
+   "attributes":{
+      "firmware":"v1.0",
+      "software":"v1.0",
+      "manufacturer":"ACME corp"
+   },
+   "features":{
+      "PotentialDifference":{
+         "properties":{
+            "status":{
+               "value":"rndVoltage",
+               "lastMeasured":"lastMeasured",
+               "units":"V"
+            }
+         }
+      },
+      "Current":{
+         "properties":{
+            "status":{
+               "value":"rndCurrent",
+               "lastMeasured":"lastMeasured",
+               "units":"A"
+            }
+         }
+      },
+      "ActivePower":{
+         "properties":{
+            "status":{
+               "value":"rndActivePower",
+               "lastMeasured":"lastMeasured",
+               "units":"W"
+            }
+         }
+      },
+      "ReactivePower":{
+         "properties":{
+            "status":{
+               "value":"rndReactivePower",
+               "lastMeasured":"lastMeasured",
+               "units":"W"
+            }
+         }
+      }
+   }
+}

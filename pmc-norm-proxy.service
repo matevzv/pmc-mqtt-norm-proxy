@@ -1,0 +1,11 @@
+[Unit]
+Description=PMC data proxy from MQTT to Norm
+
+[Service]
+Environment=PYTHONUNBUFFERED=true
+ExecStart=/home/administrator/pmc-nrg5-proxy/proxy
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
