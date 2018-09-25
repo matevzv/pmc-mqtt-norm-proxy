@@ -35,7 +35,7 @@ def on_message(mqttc, userdata, msg):
     for i,field in enumerate(data):
         norm_msg["features"][field] = {"value": float(data[field]), "units": units[i]}
 
-    r = requests.put(url, json=norm_msg)
+    requests.put(url, json=norm_msg)
 
 mqttc = mqtt.Client()
 mqttc.on_connect = on_connect
