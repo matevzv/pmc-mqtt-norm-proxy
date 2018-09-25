@@ -27,15 +27,15 @@ def on_message(mqttc, userdata, msg):
     del data["input_2_status"]
     del data["input_3_status"]
 
-    norm_msg = [{"thingId": norm_id}]
-    norm_msg[0]["policyId"] = norm_id
-    norm_msg[0]["attributes"] = {"firmware":"v1.0","software":"v1.0","manufacturer":"JSI"}
-    norm_msg[0]["timestamp"] = ts
-    norm_msg[0]["features"] = {}
+    norm_msg = {"thingId": norm_id}
+    norm_msg["policyId"] = norm_id
+    norm_msg["attributes"] = {"firmware":"v1.0","software":"v1.0","manufacturer":"JSI"}
+    norm_msg["timestamp"] = ts
+    norm_msg["features"] = {}
 
 
     for i,field in enumerate(data):
-        norm_msg[0]["features"][field] = {"value": float(data[field]), "units": units[i]}
+        norm_msg["features"][field] = {"value": float(data[field]), "units": units[i]}
 
     r = requests.put(url, json=norm_msg)
     print(r.text)
