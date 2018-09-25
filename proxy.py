@@ -40,6 +40,6 @@ def on_message(mqttc, userdata, msg):
 mqttc = mqtt.Client()
 mqttc.on_connect = on_connect
 mqttc.on_message = on_message
-mqttc.connect("193.2.205.66")
+mqttc.connect("localhost")
 
 mqttc.loop_forever()
