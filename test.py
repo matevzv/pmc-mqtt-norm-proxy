@@ -17,17 +17,16 @@ del data["input_1_status"]
 del data["input_2_status"]
 del data["input_3_status"]
 
-nrg5_msg = {"thingId": node_id}
-nrg5_msg["policyId"] = node_id
-nrg5_msg["attributes"] = {"firmware":"v1.0","software":"v1.0","manufacturer":"JSI"}
-nrg5_msg["timestamp"] = ts
-nrg5_msg["features"] = {}
+norm_msg = {"thingId": node_id}
+norm_msg["attributes"] = {"firmware":"v1.0","software":"v1.0","manufacturer":"JSI"}
+norm_msg["features"] = {}
 
+norm_msg["features"]["timestamp"] = {"properties": {"unix": ts, "units": "ms"}} 
 
 for i,field in enumerate(data):
-    nrg5_msg["features"][field] = {"value": float(data[field]), "units": units[i]}
+    norm_msg["features"][field] = {"properties": {"value": float(data[field]), "units": units[i]}}
 
-#r = requests.put(url, json=nrg5_msg)
+#r = requests.put(url, json=norm_msg)
 #print(r.text)
 
-print(json.dumps(nrg5_msg))
+print(json.dumps(norm_msg))

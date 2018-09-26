@@ -28,11 +28,11 @@ def on_message(mqttc, userdata, msg):
 
     norm_msg = {"thingId": norm_id}
     norm_msg["attributes"] = {"firmware":"v1.0","software":"v1.0","manufacturer":"JSI"}
-    norm_msg["timestamp"] = ts
     norm_msg["features"] = {}
+    norm_msg["features"]["timestamp"] = {"properties": {"unix": ts, "units": "ms"}} 
 
     for i,field in enumerate(data):
-        norm_msg["features"][field] = {"value": float(data[field]), "units": units[i]}
+        norm_msg["features"][field] = {"properties": {"value": float(data[field]), "units": units[i]}}
 
     requests.put(url+norm_id, json=norm_msg, auth=('ditto', 'ditto'))
 
