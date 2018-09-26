@@ -27,7 +27,6 @@ def on_message(mqttc, userdata, msg):
     del data["input_3_status"]
 
     norm_msg = {"thingId": norm_id}
-    norm_msg["policyId"] = norm_id
     norm_msg["attributes"] = {"firmware":"v1.0","software":"v1.0","manufacturer":"JSI"}
     norm_msg["timestamp"] = ts
     norm_msg["features"] = {}
