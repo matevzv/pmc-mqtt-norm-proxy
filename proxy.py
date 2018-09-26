@@ -10,31 +10,38 @@ pmcs = [("pmc/1670020454100061004aa000a0000005",0), ("pmc/16700204541000610080a0
 
 units = ["V", "V", "V", "A", "A", "A", "A", "Hz", "deg", "deg", "%", "%", "%", "%", "%", "%", "W", "W", "W", "kvar", "kvar", "kvar", "VA", "VA", "VA", "No_Unit", "No_Unit", "No_Unit", "W", "W", "W", "W", "W", "W", "Wh", "Wh", "Wh", "Wh", "Wh", "Wh", "Wh", "Wh", "Wh", "Wh", "Wh", "Wh", "Wh", "Wh", "Wh", "degC"]
 
+counters = {"1670020454100061004aa000a0000005": 0, "16700204541000610080a000a000007d": 0, "16700204541000610088a000a0000045": 0}
+
 def on_connect(mqttc, userdata, flags, rc):
     print("Connected with result code "+str(rc))
     mqttc.subscribe(pmcs)
 
 def on_message(mqttc, userdata, msg):
     data = json.loads(msg.payload.decode('utf-8'))
-
     node_id = data["node_id"]
-    norm_id = "org.nrg5:" + node_id
-    ts = data["ts"]
-    del data["node_id"]
-    del data["ts"]
-    del data["input_1_status"]
-    del data["input_2_status"]
-    del data["input_3_status"]
 
-    norm_msg = {"thingId": norm_id}
-    norm_msg["attributes"] = {"firmware":"v1.0","software":"v1.0","manufacturer":"JSI"}
-    norm_msg["features"] = {}
-    norm_msg["features"]["timestamp"] = {"properties": {"unix": ts, "units": "ms"}} 
+    if counters[node_id] == 20:
+        norm_id = "org.nrg5:" + node_id
+        ts = data["ts"]
+        del data["node_id"]
+        del data["ts"]
+        del data["input_1_status"]
+        del data["input_2_status"]
+        del data["input_3_status"]
 
-    for i,field in enumerate(data):
-        norm_msg["features"][field] = {"properties": {"value": float(data[field]), "units": units[i]}}
+        norm_msg = {"thingId": norm_id}
+        norm_msg["attributes"] = {"firmware":"v1.0","software":"v1.0","manufacturer":"JSI"}
+        norm_msg["features"] = {}
+        norm_msg["features"]["timestamp"] = {"properties": {"unix": ts, "units": "ms"}} 
 
-    requests.put(url+norm_id, json=norm_msg, auth=('ditto', 'ditto'))
+        for i,field in enumerate(data):
+            norm_msg["features"][field] = {"properties": {"value": float(data[field]), "units": units[i]}}
+
+        requests.put(url+norm_id, json=norm_msg, auth=('ditto', 'ditto'))
+
+        counters[node_id] = 0
+    else:
+        counters[node_id] = counters[node_id] + 1
 
 mqttc = mqtt.Client()
 mqttc.on_connect = on_connect
